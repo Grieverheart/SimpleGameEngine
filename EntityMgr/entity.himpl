@@ -1,0 +1,14 @@
+template<class T>
+inline void Entity::attachComponent(T *component){
+	owner_->attachComponent<T>(id_, component);
+}
+
+template<class T>
+inline void Entity::detachComponent(void){
+	owner_->detachComponent<T>(id_);
+}
+
+template<class T>
+T* Entity::getComponent(void)const{
+	return owner_->getComponent<T>(id_);
+}

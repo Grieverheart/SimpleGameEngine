@@ -1,0 +1,51 @@
+
+template<class T>
+inline bool EntityManager::attachComponent(uint entity_id, BaseComponent *component){
+	int comp_type = ComponentTypeManager::getComponentID<T>();
+	//Check if the type T is encountered for the first time
+	if(comp_type == INVALID_COMPONENT_TYPE) return false;
+	if(comp_type + 1 > nTypes_){
+		nTypes_ = comp_type + 1;
+		components_.resize(nTypes_);
+	}
+	//Check if the vector for this component type has space for this entity, if not resize to accomondate
+	if(entity_id + 1 > components_[comp_type].size()) components_[comp_type].resize(entity_id + 1, nullptr);
+	components_[comp_type][entity_id] = component;
+	setComponentBit(entity_id, comp_type, true);
+	changed_.insert(entities_[entity_id]);
+	return true;
+}
+
+template<class T>
+inline bool EntityManager::detachComponent(uint entity_id){
+	int comp_type = ComponentTypeManager::getComponentID<T>();
+	if(comp_type == INVALID_COMPONENT_TYPE) return false;
+	//This line possibly needs reconsidering
+	if(comp_type + 1 > nTypes_) return false;
+	delete components_[comp_type][entity_id];
+	setComponentBit(entity_id, comp_type, false);
+	changed_.insert(entities_[entity_id]);
+	return true;
+}
+
+template<class T>
+inline T* EntityManager::getComponent(uint entity_id){
+	//May have to make safer: If component does not exist we are returning a reference from a null pointer
+	int comp_type = ComponentTypeManager::getComponentID<T>();
+	if(comp_type == INVALID_COMPONENT_TYPE) return nullptr;
+	return static_cast<T*>(components_[comp_type][entity_id]);
+}
+
+// template <class T>
+// inline std::vector<T*> EntityManager::getComponentByType(void){
+	// int comp_type = ComponentTypeManager::getComponentID<T>();
+	// if(comp_type == INVALID_COMPONENT_TYPE) return std::vector<T*>();
+	//// Consider making safer, there is a possiblity of being passed a yet unknown component class
+	// std::vector<T*> retVec(components_[comp_type].size(), nullptr);
+	// int i = 0;
+	// for(auto component: components_[comp_type]){
+		// if(component) retVec[i] = static_cast<T*>(component);
+		// i++;
+	// }
+	// return retVec;
+// }

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<Box>
+  <Components>
+    <RenderComponent>
+		<texture>crate2.bmp</texture>
+		<mesh>cube-text.obj</mesh>
+	</RenderComponent>
+    <TransformComponent>
+		<position>
+			<x>10.0</x>
+			<y>1.0</y>
+			<z>0.0</z>
+		</position>
+	</TransformComponent>
+  </Components>
+</Box>
