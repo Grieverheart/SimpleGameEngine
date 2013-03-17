@@ -16,7 +16,6 @@ namespace SES{
 	typedef unsigned int uint;
 
 	class EntityManager{
-		friend class Serializer;
 	public:
 		EntityManager(void);
 		~EntityManager(void);
