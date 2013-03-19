@@ -8,6 +8,8 @@
 #include "mesh.h"
 #include "texture.h"
 
+typedef unsigned int uint;
+
 struct RenderComponent: public BaseComponent{
 	RenderComponent(GLuint tex_id, const Mesh* mesh, bool isShadow = true):
 		mesh_(mesh),
@@ -17,6 +19,8 @@ struct RenderComponent: public BaseComponent{
 	const Mesh* mesh_;
 	GLuint tex_id_;
 	bool isShadowCaster_;
+	
+	static uint _id;
 };
 
 struct TransformComponent: public BaseComponent{
@@ -91,6 +95,7 @@ struct TransformComponent: public BaseComponent{
 	glm::mat4 model_matrix_;
 	bool changed_;
 	
+	static uint _id;
 };
 
 struct MovementComponent: public BaseComponent{
@@ -110,6 +115,8 @@ struct MovementComponent: public BaseComponent{
 	float ang_velocity_;
 	float ground_distance_;
 	glm::ivec3 mv_direction;
+	
+	static uint _id;
 };
 
 #endif

@@ -1,7 +1,7 @@
 
 template<class T>
 inline bool EntityManager::attachComponent(uint entity_id, BaseComponent *component){
-	int comp_type = ComponentTypeManager::getComponentID<T>();
+	int comp_type = T::_id;
 	//Check if the type T is encountered for the first time
 	if(comp_type == INVALID_COMPONENT_TYPE) return false;
 	if(comp_type + 1 > nTypes_){
@@ -18,7 +18,7 @@ inline bool EntityManager::attachComponent(uint entity_id, BaseComponent *compon
 
 template<class T>
 inline bool EntityManager::detachComponent(uint entity_id){
-	int comp_type = ComponentTypeManager::getComponentID<T>();
+	int comp_type = T::_id;
 	if(comp_type == INVALID_COMPONENT_TYPE) return false;
 	//This line possibly needs reconsidering
 	if(comp_type + 1 > nTypes_) return false;
@@ -31,14 +31,14 @@ inline bool EntityManager::detachComponent(uint entity_id){
 template<class T>
 inline T* EntityManager::getComponent(uint entity_id){
 	//May have to make safer: If component does not exist we are returning a reference from a null pointer
-	int comp_type = ComponentTypeManager::getComponentID<T>();
+	int comp_type = T::_id;
 	if(comp_type == INVALID_COMPONENT_TYPE) return nullptr;
 	return static_cast<T*>(components_[comp_type][entity_id]);
 }
 
 // template <class T>
 // inline std::vector<T*> EntityManager::getComponentByType(void){
-	// int comp_type = ComponentTypeManager::getComponentID<T>();
+	// int comp_type = T::_id;
 	// if(comp_type == INVALID_COMPONENT_TYPE) return std::vector<T*>();
 	//// Consider making safer, there is a possiblity of being passed a yet unknown component class
 	// std::vector<T*> retVec(components_[comp_type].size(), nullptr);

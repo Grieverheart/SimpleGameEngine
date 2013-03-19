@@ -55,6 +55,22 @@ namespace SES{
 		}
 		delete id_manager_;
 	}
+	
+	bool EntityManager::attachComponent(uint entity_id, BaseComponent *component, uint comp_id){
+		int comp_type = comp_id;
+		//Check if the type T is encountered for the first time
+		if(comp_type == INVALID_COMPONENT_TYPE) return false;
+		if(comp_type + 1 > nTypes_){
+			nTypes_ = comp_type + 1;
+			components_.resize(nTypes_);
+		}
+		//Check if the vector for this component type has space for this entity, if not resize to accomondate
+		if(entity_id + 1 > components_[comp_type].size()) components_[comp_type].resize(entity_id + 1, nullptr);
+		components_[comp_type][entity_id] = component;
+		setComponentBit(entity_id, comp_type, true);
+		changed_.insert(entities_[entity_id]);
+		return true;
+	}
 
 	void EntityManager::registerSystem(EntitySystem* ent_system){
 		/* Check if either the system already exists (pointer equality) or the system type already exists */

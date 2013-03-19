@@ -25,6 +25,8 @@ namespace SES{
 		
 		Entity& getEntity(uint entity_id);
 		
+		bool attachComponent(uint entity_id, BaseComponent *component, uint comp_id);
+		
 		template<class T>
 		bool attachComponent(uint entity_id, BaseComponent *component);
 		
